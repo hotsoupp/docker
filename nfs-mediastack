@@ -50,6 +50,18 @@ services:
     ports:
       - 8989:8989
     restart: unless-stopped
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DATADIR}/prowlarr/config:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
@@ -88,4 +100,16 @@ services:
       - ${DATADIR}/overseerr/config:/config
     ports:
       - 5055:5055
+    restart: unless-stopped\
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:latest
+    container_name: tautulli
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DATADIR}/tautulli/config:/config
+    ports:
+      - 8181:8181
     restart: unless-stopped
