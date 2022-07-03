@@ -1,9 +1,9 @@
-# Introduction
+#Introduction
 
 This Repo will be housing templates
 
 
-## NFS-MEDIASTACK
+##NFS-MEDIASTACK
 
 DATADIR=            # The Directory on your local host to store the data of containers
 PUID=               # User ID to run docker with
