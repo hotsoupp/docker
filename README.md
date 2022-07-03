@@ -17,7 +17,7 @@ This stack is used to spin up the following services and connect them to the req
 
 Your type of media might vary if for example you don't have any Anime, you can remove the line in the nfs-mediastack.env where it says ANIME_PATH= and remove the volumes in nfs-mediastack.yaml. 
 
-### .env explained
+### Explaining the variables
 
 DATADIR=            # The Directory on your local host to store the data of containers
 <br>
