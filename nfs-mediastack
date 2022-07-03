@@ -1,0 +1,92 @@
+version: "3.6"      
+volumes:
+  movies:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${STORAGE_HOST},nfsvers=4" #IPv4 adress of the storage host.
+      device: ":${MOVIES_PATH}" #Path to the Movies NFS share. Example (/mnt/Movies)
+  tv:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${STORAGE_HOST},nfsvers=4" #IPv4 adress of the storage host.
+      device: ":${TV_PATH}" #Path to the Tv Shows NFS share. Example (/mnt/Tv)
+  anime:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${STORAGE_HOST},nfsvers=4" #IPv4 adress of the storage host.
+      device: ":${ANIME_PATH}" #Path to the Anime NFS share. (/mnt/Anime)
+  download:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${STORAGE_HOST},nfsvers=4" #IPv4 adress of the storage host.
+      device: ":${ANIME_PATH}" #Path to the Anime NFS share. (/mnt/Anime)
+services:
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=TZ=${TZ}
+    volumes:
+      - ${DATADIR}/radarr/config:/config
+      - movies:/movies
+      - download:/download
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:develop
+    container_name: sonarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID} 
+      - TZ=TZ=${TZ}
+    volumes:
+      - ${DATADIR}/sonarr/config:/config
+      - tv:/tv 
+      - anime:/anime
+      - download:/download
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DATADIR}/sabnzbd/config:/config
+      - download:/download 
+      - download/incomplete/incomplete-downloads
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DATADIR}/bazarr/config:/config
+      - movies:/movies
+      - tv:/tv
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+  overseerr:
+    image: lscr.io/linuxserver/overseerr
+    container_name: overseerr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DATADIR}/overseerr/config:/config
+    ports:
+      - 5055:5055
+    restart: unless-stopped
