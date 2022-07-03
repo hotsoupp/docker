@@ -100,7 +100,7 @@ services:
       - ${DATADIR}/overseerr/config:/config
     ports:
       - 5055:5055
-    restart: unless-stopped\
+    restart: unless-stopped
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli
