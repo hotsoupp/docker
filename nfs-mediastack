@@ -60,7 +60,6 @@ services:
     volumes:
       - ${DATADIR}/sabnzbd/config:/config
       - download:/download 
-      - download/incomplete/incomplete-downloads
     ports:
       - 8080:8080
     restart: unless-stopped
