@@ -19,7 +19,7 @@ volumes:
     driver_opts:
       type: "nfs"
       o: "addr=${STORAGE_HOST},nfsvers=4" #IPv4 adress of the storage host.
-      device: ":${ANIME_PATH}" #Path to the Anime NFS share. (/mnt/Anime)
+      device: ":${DOWNLOADS_PATH}" #Path to the Anime NFS share. (/mnt/Anime)
 services:
   radarr:
     image: lscr.io/linuxserver/radarr:latest
